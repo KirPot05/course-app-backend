@@ -1,15 +1,20 @@
+import { Sequelize } from "sequelize";
 import {
   Course,
   CourseModel,
   CourseSectionModel,
   InstructorCourseModel,
+  ProfileModel,
   SectionVideoModel,
   StudentCourseModel,
+  UserModel,
 } from "../models";
+import { v4 as uuidV4 } from "uuid";
 
 class CourseService {
   async createCourse(instructorId: string, course: Course, tags: string[]) {
-    const newCourse = await CourseModel.create(course);
+    const { id, ...remCourse } = course;
+    const newCourse = await CourseModel.create({ id: uuidV4(), ...remCourse });
     if (newCourse === null) throw new Error(`Course not created`);
 
     await InstructorCourseModel.create({
@@ -20,11 +25,55 @@ class CourseService {
     return newCourse;
   }
   async getAllCourses() {
-    return await CourseModel.findAll();
+    const courses = await CourseModel.findAll();
+
+    const modifiedCourses: any[] = courses.map((course) => ({
+      courseId: course.id,
+      title: course.title,
+      rating: course.rating,
+      reviews: course.reviews,
+      price: course.price,
+      bestseller: course.bestSeller,
+      imgSrc: course.imgUrl,
+      description: course.description,
+      instructorId: course.instructorId,
+    }));
+
+    modifiedCourses.forEach(async (course) => {
+      const instructorProfile = await ProfileModel.findOne({
+        where: { id: course.instructorId },
+      });
+      if (instructorProfile === null) return;
+
+      course.instructor = instructorProfile.firstName;
+    });
+
+    return modifiedCourses;
   }
 
   async getCourseById(id: string) {
-    return await CourseModel.findByPk(id);
+    const course = await CourseModel.findByPk(id);
+    if (course === null) return false;
+
+    const modifiedCourse: any = {
+      courseId: course.id,
+      title: course.title,
+      rating: course.rating,
+      reviews: course.reviews,
+      price: course.price,
+      bestseller: course.bestSeller,
+      imgSrc: course.imgUrl,
+      description: course.description,
+      instructorId: course.instructorId,
+    };
+
+    const instructorProfile = await ProfileModel.findOne({
+      where: { id: course.instructorId },
+    });
+
+    modifiedCourse.instructor = instructorProfile?.firstName;
+
+    return modifiedCourse;
   }
 
   async getStudentCourses(studentId: string) {

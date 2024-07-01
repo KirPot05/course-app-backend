@@ -1,13 +1,14 @@
 import { Request, Response } from "express";
 import { CustomRequest } from "../types";
 import courseService from "../services/course.service";
-import { failed_response } from "../utils/response";
+import { failed_response, success_response } from "../utils/response";
 import { Course } from "../models";
 
 export async function createCourse(req: CustomRequest, res: Response) {
   let result = {};
   try {
     const courseFields = req.body.course as Course;
+
     const tags = req.body.tags as string[];
     const instructorId = req.userId;
 
@@ -21,6 +22,9 @@ export async function createCourse(req: CustomRequest, res: Response) {
       courseFields,
       tags
     );
+
+    result = success_response("Course created successfully", course);
+    return res.status(200).json(result);
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: "Error in creating user" });

@@ -47,7 +47,7 @@ class AuthService {
 
     const profile = await ProfileModel.findOne({ where: { userId: user.id } });
     if (profile !== null) {
-      result.user = "";
+      result.user = profile.firstName;
     }
 
     result.success = true;

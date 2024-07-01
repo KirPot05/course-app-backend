@@ -45,6 +45,7 @@
 // models/profile.ts
 import { DataTypes, Model, Optional } from "sequelize";
 import { sequelize } from "../utils/db";
+import User from "./user.model";
 
 export interface ProfileAttributes {
   id: string;
