@@ -130,6 +130,12 @@ class CourseService {
     });
   }
   async enrollStudent(studentId: string, courseId: string) {
+    const enrolled = await StudentCourseModel.findOne({
+      where: { courseId, studentId },
+    });
+
+    if (enrolled) return null;
+
     return await StudentCourseModel.create({ studentId, courseId });
   }
 }

@@ -97,6 +97,10 @@ export async function enrollStudent(req: CustomRequest, res: Response) {
     const courseId = req.params.id;
 
     const enrolledCourse = await courseService.enrollStudent(userId, courseId);
+    if (enrolledCourse === null) {
+      result = failed_response("Course already enrolled");
+      return res.status(400).json(result);
+    }
 
     result = success_response("Enrolled successfully", enrolledCourse);
     return res.status(200).json(result);
