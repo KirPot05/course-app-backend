@@ -10,3 +10,6 @@ dist/
 .env
 .env.*
 
+
+data.js
+db.js
