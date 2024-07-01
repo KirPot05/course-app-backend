@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
-    "start": "env-cmd -f .env.local node build/src/app.js",
+    "start": "node build/src/app.js",
     "dev": "nodemon"
   },
   "keywords": [],
