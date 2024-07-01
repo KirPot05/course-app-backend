@@ -46,7 +46,7 @@ class CourseService {
 
     modifiedCourses.forEach(async (course) => {
       const instructorProfile = await ProfileModel.findOne({
-        where: { id: course.instructorId },
+        where: { userId: course.instructorId },
       });
       if (instructorProfile === null) return;
 
