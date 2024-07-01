@@ -4,7 +4,7 @@ import { Request, Response, NextFunction } from "express";
 import morgan from "morgan";
 import { NODE_ENV, PORT } from "./config/constants";
 import { authRoutes } from "./routes";
-import { connectDB } from "./utils/db";
+import { connectDB, sequelize } from "./utils/db";
 
 const app = express();
 
@@ -63,6 +63,14 @@ async function main() {
       server.close(() => {
         process.exit(1);
       });
+    });
+
+    process.on("SIGKILL", (signal: NodeJS.Signals) => {
+      sequelize.close();
+    });
+
+    process.on("beforeExit", () => {
+      sequelize.close();
     });
   } catch (error) {
     console.error(error);

@@ -50,6 +50,10 @@ class AuthService {
       result.user = "";
     }
 
+    result.success = true;
+    result.msg = "User logged in successfully";
+    result.token = authToken;
+
     return result;
   }
 
