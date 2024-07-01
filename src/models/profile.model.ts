@@ -45,7 +45,6 @@
 // models/profile.ts
 import { DataTypes, Model, Optional } from "sequelize";
 import { sequelize } from "../utils/db";
-import User from "./user.model";
 
 export interface ProfileAttributes {
   id: string;
@@ -53,6 +52,7 @@ export interface ProfileAttributes {
   firstName: string;
   lastName: string;
   portfolioLink?: string;
+  imgUrl?: string;
 }
 
 interface ProfileCreationAttributes extends Optional<ProfileAttributes, "id"> {}
@@ -66,6 +66,7 @@ class Profile
   public firstName!: string;
   public lastName!: string;
   public portfolioLink?: string;
+  public imgUrl?: string;
 
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
