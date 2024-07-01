@@ -57,7 +57,12 @@ class AuthService {
     return result;
   }
 
-  async register(email: string, password: string): Promise<AuthResponse> {
+  async register(
+    email: string,
+    password: string,
+    firstName?: string,
+    lastName?: string
+  ): Promise<AuthResponse> {
     let user = await UserModel.findOne({ where: { email } });
     let result: AuthResponse = {
       success: false,
@@ -72,6 +77,12 @@ class AuthService {
     }
 
     user = await UserModel.create({ email, password, id: uuidV4() });
+    if (user === null) {
+      return {
+        success: false,
+        msg: "User could not be created",
+      };
+    }
 
     const data = {
       userId: user.id,
@@ -80,9 +91,16 @@ class AuthService {
 
     const authToken = await getAuthToken(data);
 
-    const profile = await ProfileModel.findOne({ where: { userId: "" } });
+    const profile = await ProfileModel.findOne({ where: { userId: user.id } });
     if (profile !== null) {
-      result.user = "User";
+      result.user = profile.firstName;
+    } else if (firstName !== undefined && lastName !== undefined) {
+      await ProfileModel.create({
+        id: uuidV4(),
+        firstName,
+        lastName,
+        userId: user.id!,
+      });
     }
 
     result.success = true;

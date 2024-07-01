@@ -1,4 +1,4 @@
-import { Sequelize } from "sequelize";
+import { Sequelize, where } from "sequelize";
 import {
   Course,
   CourseModel,
@@ -128,7 +128,10 @@ class CourseService {
     return await CourseSectionModel.create({ courseId, title });
   }
 
-  async getCourseSections(courseId: string) {}
+  async getCourseSections(courseId: string) {
+    const sections = await CourseSectionModel.findAll({ where: { courseId } });
+    return sections;
+  }
 
   async getCourseSectionVideos(videoId: string) {}
 

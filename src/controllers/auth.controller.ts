@@ -42,13 +42,28 @@ export async function createUser(req: Request, res: Response) {
     password: z
       .string()
       .min(6, "Enter a valid password with atleast six characters"),
+
+    firstName: z
+      .string()
+      .min(3, "Enter a valid first name with atleast three characters")
+      .optional(),
+
+    lastName: z
+      .string()
+      .min(3, "Enter a valid last name with atleast three characters")
+      .optional(),
   });
 
   try {
     const creds = userFields.parse(req.body);
 
     const password = await encryptPassword(creds.password);
-    const result = await authService.register(creds.email, password);
+    const result = await authService.register(
+      creds.email,
+      password,
+      creds.firstName,
+      creds.lastName
+    );
 
     let response;
     if (result.success === false) {
