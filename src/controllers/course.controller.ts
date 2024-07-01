@@ -74,6 +74,9 @@ export async function getStudentCourses(req: CustomRequest, res: Response) {
     }
 
     const studentCourses = await courseService.getStudentCourses(studentId);
+    if (studentCourses.length === 0) {
+      return res.status(404).json({ message: "No courses found" });
+    }
 
     return res.status(200).json(studentCourses);
   } catch (error) {

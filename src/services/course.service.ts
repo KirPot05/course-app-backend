@@ -82,11 +82,38 @@ class CourseService {
   }
 
   async getStudentCourses(studentId: string) {
-    const studentCourses: any = await StudentCourseModel.findAll({
+    const enrolledCourses = await StudentCourseModel.findAll({
       where: { studentId },
-      include: [{ model: CourseModel }],
     });
-    return studentCourses.map((sc: any) => sc.Course);
+
+    const courses: any[] = [];
+    for (let enrolledCourse of enrolledCourses) {
+      let eCourse = await CourseModel.findByPk(enrolledCourse.courseId);
+      courses.push(eCourse);
+    }
+
+    const modifiedCourses: any[] = courses.map((course) => ({
+      courseId: course.id,
+      title: course.title,
+      rating: course.rating,
+      reviews: course.reviews,
+      price: course.price,
+      bestseller: course.bestSeller,
+      imgSrc: course.imgUrl,
+      description: course.description,
+      instructorId: course.instructorId,
+    }));
+
+    modifiedCourses.forEach(async (course) => {
+      const instructorProfile = await ProfileModel.findOne({
+        where: { userId: course.instructorId },
+      });
+      if (instructorProfile === null) return;
+
+      course.instructor = instructorProfile.firstName;
+    });
+
+    return modifiedCourses;
   }
 
   async getInstructorCourses(instructorId: string) {
