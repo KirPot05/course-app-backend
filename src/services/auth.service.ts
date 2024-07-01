@@ -81,6 +81,10 @@ class AuthService {
       result.user = "User";
     }
 
+    result.success = true;
+    result.token = authToken;
+    result.msg = "User registered successfully";
+
     return result;
   }
 
