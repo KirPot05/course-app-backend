@@ -83,3 +83,27 @@ export async function getStudentCourses(req: CustomRequest, res: Response) {
       .json({ message: "Error in fetching student courses" });
   }
 }
+
+export async function enrollStudent(req: CustomRequest, res: Response) {
+  let result: any = {};
+
+  try {
+    const userId = req.userId;
+    if (userId === undefined) {
+      result = failed_response("User ID is required");
+      return res.status(400).json(result);
+    }
+
+    const courseId = req.params.id;
+
+    const enrolledCourse = await courseService.enrollStudent(userId, courseId);
+
+    result = success_response("Enrolled successfully", enrolledCourse);
+    return res.status(200).json(result);
+  } catch (error) {
+    console.error(error);
+    return res
+      .status(500)
+      .json({ message: "Error in fetching student courses" });
+  }
+}
