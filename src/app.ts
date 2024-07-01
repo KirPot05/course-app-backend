@@ -26,6 +26,10 @@ if (NODE_ENV === "development") {
 app.use("/api/auth", authRoutes);
 // app.use("/api/profile", profileRoutes);
 
+app.get("/", (req, res) => {
+  res.json({ message: "Server working!" });
+});
+
 app.get("/*", (req: Request, res: Response, next: NextFunction) => {
   if (req.url.includes("api")) {
     // If the URL contains 'api', proceed to the next middleware.
