@@ -2,6 +2,8 @@ import { Request, Response } from "express";
 import { failed_response, success_response } from "../utils/response";
 import { ZodError, z } from "zod";
 import authService from "../services/auth.service";
+import { CustomRequest } from "../types";
+import { encryptPassword } from "../utils/password.util";
 
 export async function userLogin(req: Request, res: Response) {
   const credentials = z.object({
@@ -44,7 +46,8 @@ export async function createUser(req: Request, res: Response) {
   try {
     const creds = userFields.parse(req.body);
 
-    const result = await authService.register(creds.email, creds.password);
+    const password = await encryptPassword(creds.password);
+    const result = await authService.register(creds.email, password);
 
     let response;
     if (result.success === false) {
@@ -63,19 +66,25 @@ export async function createUser(req: Request, res: Response) {
   }
 }
 
-export async function createProfile(req: Request, res: Response) {
+export async function createProfile(req: CustomRequest, res: Response) {
   const profileSchema = z.object({
     firstName: z.string().min(3, "First name is required"),
     lastName: z.string().min(3, "Last name is required"),
-    userId: z.string().uuid(),
   });
 
   let result: any = {};
   try {
+    const userId = req.userId;
+
+    if (userId === undefined) {
+      result = failed_response("User ID is required");
+      return res.status(400).json(result);
+    }
+
     const profileFields = profileSchema.parse(req.body);
 
     const newProfile = await authService.createProfile(
-      profileFields.userId,
+      userId,
       profileFields.firstName,
       profileFields.lastName
     );
@@ -93,9 +102,15 @@ export async function createProfile(req: Request, res: Response) {
   }
 }
 
-export async function getProfile(req: Request, res: Response) {
+export async function getProfile(req: CustomRequest, res: Response) {
   let result: any = {};
   try {
+    const userId = req.userId;
+    if (userId === undefined) {
+      result = failed_response("User ID is required");
+      return res.status(400).json(result);
+    }
+
     const profileId = req.params.id;
 
     const newProfile = await authService.getUserProfile(profileId);
