@@ -1,0 +1,67 @@
+Consider the below schemas
+"""
+type Course = {
+  title: string;
+  description?: string;
+  rating: number;
+  bestSeller: boolean;
+  imgUrl: string;
+};
+
+type InstructorCourse = {
+  instructorId: number;
+  courseId: number;
+};
+
+type StudentCourse = {
+  studentId: number;
+  courseId: number;
+};
+
+type CourseSection = {
+  courseId: number;
+  title: string;
+};
+
+
+type SectionVideo = {
+  sectionId: number;
+  videoUrl: string;
+  title: string;
+};
+"""
+
+
+Write the services listed below.
+Hints:
+1. The code should be written in typescript for node js
+2. Sequelize is being used as ORM
+3. The application is for Online Course Management
+4. Fill in all the services boilerplate below
+
+import { Course } from "../models";
+
+class CourseService {
+  async createCourse(instructorId: string, course: Course, tags: string[]) {}
+
+  async getAllCourses() {}
+
+  async getCourseById(id: string) {}
+
+  async getStudentCourses(studentId: string) {}
+
+  async getInstructorCourses(instructorId: string) {}
+
+  async addCourseSections(courseId: string, title: string) {}
+
+  async addCourseSectionVideo(
+    courseId: string,
+    sectionId: string,
+    videoTitle: string,
+    videoUrl: string
+  ) {}
+
+  async enrollStudent(studentId: string, courseId: string) {}
+}
+
+export default new CourseService();

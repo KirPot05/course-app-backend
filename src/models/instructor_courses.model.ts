@@ -1,21 +1,74 @@
-import { DataTypes } from "sequelize";
+// import { DataTypes } from "sequelize";
+// import { sequelize } from "../utils/db";
+
+// export type InstructorCourse = {
+//   instructorId: number;
+//   courseId: number;
+// };
+
+// const instructorCourseSchema = sequelize.define(
+//   "instructor_courses",
+//   {
+//     id: {
+//       type: DataTypes.STRING,
+//       primaryKey: true,
+//     },
+
+//     instructorId: {
+//       type: DataTypes.STRING,
+//       allowNull: false,
+//       references: {
+//         model: "users",
+//         key: "id",
+//       },
+//     },
+//     courseId: {
+//       type: DataTypes.STRING,
+//       allowNull: false,
+//       references: {
+//         model: "courses",
+//         key: "id",
+//       },
+//     },
+//   },
+//   { timestamps: true }
+// );
+
+// export default instructorCourseSchema;
+
+// models/instructorCourse.ts
+import { DataTypes, Model, Optional } from "sequelize";
 import { sequelize } from "../utils/db";
 
-export type InstructorCourse = {
-  instructorId: number;
-  courseId: number;
-};
+export interface InstructorCourseAttributes {
+  id: string;
+  instructorId: string;
+  courseId: string;
+}
 
-const instructorCourseSchema = sequelize.define(
-  "instructor_courses",
+export interface InstructorCourseCreationAttributes
+  extends Optional<InstructorCourseAttributes, "id"> {}
+
+class InstructorCourse
+  extends Model<InstructorCourseAttributes, InstructorCourseCreationAttributes>
+  implements InstructorCourseAttributes
+{
+  public id!: string;
+  public instructorId!: string;
+  public courseId!: string;
+
+  public readonly createdAt!: Date;
+  public readonly updatedAt!: Date;
+}
+
+InstructorCourse.init(
   {
     id: {
-      type: DataTypes.UUIDV4,
+      type: DataTypes.STRING,
       primaryKey: true,
     },
-
     instructorId: {
-      type: DataTypes.UUIDV4,
+      type: DataTypes.STRING,
       allowNull: false,
       references: {
         model: "users",
@@ -23,7 +76,7 @@ const instructorCourseSchema = sequelize.define(
       },
     },
     courseId: {
-      type: DataTypes.UUIDV4,
+      type: DataTypes.STRING,
       allowNull: false,
       references: {
         model: "courses",
@@ -31,7 +84,11 @@ const instructorCourseSchema = sequelize.define(
       },
     },
   },
-  { timestamps: true }
+  {
+    sequelize,
+    tableName: "instructor_courses",
+    timestamps: true,
+  }
 );
 
-export default instructorCourseSchema;
+export default InstructorCourse;

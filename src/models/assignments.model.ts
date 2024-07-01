@@ -11,7 +11,7 @@ const assignmentSchema = sequelize.define(
   "assignments",
   {
     id: {
-      type: DataTypes.UUIDV4,
+      type: DataTypes.STRING,
       primaryKey: true,
     },
 
@@ -20,7 +20,7 @@ const assignmentSchema = sequelize.define(
       allowNull: false,
     },
     sectionId: {
-      type: DataTypes.UUIDV4,
+      type: DataTypes.STRING,
       allowNull: false,
       references: {
         model: "course_sections",

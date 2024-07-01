@@ -11,12 +11,12 @@ const assignmentSchema = sequelize.define(
   "assignment_question_options",
   {
     id: {
-      type: DataTypes.UUIDV4,
+      type: DataTypes.STRING,
       primaryKey: true,
     },
 
     questionId: {
-      type: DataTypes.UUIDV4,
+      type: DataTypes.STRING,
       references: {
         model: "assignment_questions",
         key: "id",

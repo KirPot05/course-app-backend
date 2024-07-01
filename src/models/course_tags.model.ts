@@ -10,7 +10,7 @@ const courseSectionSchema = sequelize.define(
   "course_tags",
   {
     id: {
-      type: DataTypes.UUIDV4,
+      type: DataTypes.STRING,
       primaryKey: true,
     },
 
@@ -24,7 +24,7 @@ const courseSectionSchema = sequelize.define(
     },
 
     tagId: {
-      type: DataTypes.UUIDV4,
+      type: DataTypes.STRING,
       allowNull: false,
       references: {
         model: "tags",

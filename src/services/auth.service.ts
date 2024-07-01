@@ -9,8 +9,6 @@ type AuthResponse = {
   user?: string;
 };
 
-type CreateUserFields = {};
-
 class AuthService {
   async login(email: string, password: string): Promise<AuthResponse> {
     const user = await UserModel.findOne({ where: { email } });
@@ -47,7 +45,7 @@ class AuthService {
 
     const authToken = await getAuthToken(data);
 
-    const profile = await ProfileModel.findOne({ where: { userId: "" } });
+    const profile = await ProfileModel.findOne({ where: { userId: user.id } });
     if (profile !== null) {
       result.user = "";
     }
@@ -85,6 +83,10 @@ class AuthService {
 
     return result;
   }
+
+  async createProfile(userId: string, firstName: string, lastName: string) {}
+
+  async getUserProfile(userId: string) {}
 }
 
 export default new AuthService();

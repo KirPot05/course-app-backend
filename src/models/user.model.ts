@@ -31,15 +31,14 @@ class User
 
 User.init(
   {
-    // id: {
-    //   type: DataTypes.UUIDV4,
-    //   primaryKey: true,
-    // },
+    id: {
+      type: DataTypes.STRING,
+      primaryKey: true,
+    },
 
     email: {
       type: DataTypes.STRING,
       allowNull: false,
-      primaryKey: true,
     },
 
     password: { type: DataTypes.STRING, allowNull: false },

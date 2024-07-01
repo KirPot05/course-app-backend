@@ -1,21 +1,74 @@
-import { DataTypes } from "sequelize";
+// import { DataTypes } from "sequelize";
+// import { sequelize } from "../utils/db";
+
+// export type StudentCourse = {
+//   studentId: number;
+//   courseId: number;
+// };
+
+// const studentCourseSchema = sequelize.define(
+//   "student_courses",
+//   {
+//     id: {
+//       type: DataTypes.STRING,
+//       primaryKey: true,
+//     },
+
+//     studentId: {
+//       type: DataTypes.STRING,
+//       allowNull: false,
+//       references: {
+//         model: "users",
+//         key: "id",
+//       },
+//     },
+//     courseId: {
+//       type: DataTypes.STRING,
+//       allowNull: false,
+//       references: {
+//         model: "courses",
+//         key: "id",
+//       },
+//     },
+//   },
+//   { timestamps: true }
+// );
+
+// export default studentCourseSchema;
+
+// models/studentCourse.ts
+import { DataTypes, Model, Optional } from "sequelize";
 import { sequelize } from "../utils/db";
 
-export type StudentCourse = {
-  studentId: number;
-  courseId: number;
-};
+export interface StudentCourseAttributes {
+  id: string;
+  studentId: string;
+  courseId: string;
+}
 
-const studentCourseSchema = sequelize.define(
-  "student_courses",
+export interface StudentCourseCreationAttributes
+  extends Optional<StudentCourseAttributes, "id"> {}
+
+class StudentCourse
+  extends Model<StudentCourseAttributes, StudentCourseCreationAttributes>
+  implements StudentCourseAttributes
+{
+  public id!: string;
+  public studentId!: string;
+  public courseId!: string;
+
+  public readonly createdAt!: Date;
+  public readonly updatedAt!: Date;
+}
+
+StudentCourse.init(
   {
     id: {
-      type: DataTypes.UUIDV4,
+      type: DataTypes.STRING,
       primaryKey: true,
     },
-
     studentId: {
-      type: DataTypes.UUIDV4,
+      type: DataTypes.STRING,
       allowNull: false,
       references: {
         model: "users",
@@ -23,7 +76,7 @@ const studentCourseSchema = sequelize.define(
       },
     },
     courseId: {
-      type: DataTypes.UUIDV4,
+      type: DataTypes.STRING,
       allowNull: false,
       references: {
         model: "courses",
@@ -31,7 +84,11 @@ const studentCourseSchema = sequelize.define(
       },
     },
   },
-  { timestamps: true }
+  {
+    sequelize,
+    tableName: "student_courses",
+    timestamps: true,
+  }
 );
 
-export default studentCourseSchema;
+export default StudentCourse;

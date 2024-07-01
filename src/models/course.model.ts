@@ -1,20 +1,40 @@
-// models/course.ts
-import { DataTypes } from "sequelize";
+import { DataTypes, Model, Optional } from "sequelize";
 import { sequelize } from "../utils/db";
 
-export type Course = {
+export interface CourseAttributes {
+  id: string;
   title: string;
   description?: string;
   rating: number;
   bestSeller: boolean;
   imgUrl: string;
-};
+  createdAt?: Date;
+  updatedAt?: Date;
+}
 
-const courseSchema = sequelize.define(
-  "courses",
+interface CourseCreationAttributes
+  extends Optional<CourseAttributes, "id" | "createdAt" | "updatedAt"> {}
+
+class Course
+  extends Model<CourseAttributes, CourseCreationAttributes>
+  implements CourseAttributes
+{
+  public id!: string;
+  public title!: string;
+  public description?: string;
+  public rating!: number;
+  public bestSeller!: boolean;
+  public imgUrl!: string;
+
+  // timestamps!
+  public readonly createdAt!: Date;
+  public readonly updatedAt!: Date;
+}
+
+Course.init(
   {
     id: {
-      type: DataTypes.UUIDV4,
+      type: DataTypes.STRING,
       primaryKey: true,
     },
 
@@ -40,7 +60,11 @@ const courseSchema = sequelize.define(
       allowNull: false,
     },
   },
-  { timestamps: true }
+  {
+    sequelize,
+    tableName: "courses",
+    timestamps: true,
+  }
 );
 
-export default courseSchema;
+export default Course;
