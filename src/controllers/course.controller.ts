@@ -11,6 +11,7 @@ export async function createCourse(req: CustomRequest, res: Response) {
 
     const tags = req.body.tags as string[];
     const instructorId = req.userId;
+    console.log("instructorId", instructorId);
 
     if (instructorId === undefined) {
       result = failed_response("User ID is required");

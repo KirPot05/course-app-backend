@@ -14,12 +14,17 @@ import { v4 as uuidV4 } from "uuid";
 class CourseService {
   async createCourse(instructorId: string, course: Course, tags: string[]) {
     const { id, ...remCourse } = course;
-    const newCourse = await CourseModel.create({ id: uuidV4(), ...remCourse });
+    const newCourse = await CourseModel.create({
+      id: uuidV4(),
+      ...remCourse,
+      instructorId,
+    });
     if (newCourse === null) throw new Error(`Course not created`);
 
     await InstructorCourseModel.create({
       instructorId,
       courseId: newCourse.id,
+      id: uuidV4(),
     });
     // Add logic to handle tags if required
     return newCourse;
