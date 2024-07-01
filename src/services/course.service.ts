@@ -73,7 +73,7 @@ class CourseService {
     };
 
     const instructorProfile = await ProfileModel.findOne({
-      where: { id: course.instructorId },
+      where: { userId: course.instructorId },
     });
 
     modifiedCourse.instructor = instructorProfile?.firstName;
