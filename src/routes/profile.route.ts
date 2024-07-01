@@ -1,15 +1,15 @@
-import { Router } from "express";
-import {
-  createUserProfile,
-  editUserProfile,
-  fetchUserProfile,
-} from "../controllers/profile.controller";
-import authMiddleware from "../middleware/auth.middleware";
+// import { Router } from "express";
+// // import {
+// //   createUserProfile,
+// //   editUserProfile,
+// //   fetchUserProfile,
+// // } from "../controllers/profile.controller";
+// import authMiddleware from "../middleware/auth.middleware";
 
-const router = Router();
+// const router = Router();
 
-router.post("/", authMiddleware, createUserProfile);
-router.get("/", authMiddleware, fetchUserProfile);
-router.patch("/", authMiddleware, editUserProfile);
+// router.post("/", authMiddleware, createUserProfile);
+// router.get("/", authMiddleware, fetchUserProfile);
+// router.patch("/", authMiddleware, editUserProfile);
 
-export default router;
+// export default router;

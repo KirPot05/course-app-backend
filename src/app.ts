@@ -3,7 +3,7 @@ import cors from "cors";
 import { Request, Response, NextFunction } from "express";
 import morgan from "morgan";
 import { NODE_ENV, PORT } from "./config/constants";
-import { authRoutes, profileRoutes } from "./routes";
+import { authRoutes } from "./routes";
 import { connectDB } from "./utils/db";
 
 const app = express();
@@ -24,7 +24,7 @@ if (NODE_ENV === "development") {
 }
 
 app.use("/api/auth", authRoutes);
-app.use("/api/profile", profileRoutes);
+// app.use("/api/profile", profileRoutes);
 
 app.get("/*", (req: Request, res: Response, next: NextFunction) => {
   if (req.url.includes("api")) {
