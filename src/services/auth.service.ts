@@ -1,5 +1,6 @@
 import { ProfileModel, User, UserModel } from "../models";
 import { getAuthToken, isCorrectPassword } from "../utils/password.util";
+import { v4 as uuidV4 } from "uuid";
 
 type AuthResponse = {
   success: boolean;
@@ -68,7 +69,7 @@ class AuthService {
       };
     }
 
-    user = await UserModel.create({ email, password });
+    user = await UserModel.create({ email, password, id: uuidV4() });
 
     const data = {
       userId: user.id,

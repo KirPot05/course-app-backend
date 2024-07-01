@@ -2,7 +2,7 @@ import { DataTypes, Model, Optional } from "sequelize";
 import { sequelize } from "../utils/db";
 
 export interface UserAttributes {
-  id: string;
+  id?: string;
   email: string;
   password: string;
   role?: "INSTRUCTOR" | "STUDENT";
@@ -18,7 +18,7 @@ class User
   extends Model<UserAttributes, UserCreationAttributes>
   implements UserAttributes
 {
-  public id!: string;
+  public id?: string;
   public email!: string;
   public password!: string;
   public role?: "INSTRUCTOR" | "STUDENT";
@@ -31,10 +31,10 @@ class User
 
 User.init(
   {
-    id: {
-      type: DataTypes.UUIDV4,
-      primaryKey: true,
-    },
+    // id: {
+    //   type: DataTypes.UUIDV4,
+    //   primaryKey: true,
+    // },
 
     email: {
       type: DataTypes.STRING,
