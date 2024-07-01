@@ -110,13 +110,24 @@ class AuthService {
     return result;
   }
 
-  async createProfile(userId: string, firstName: string, lastName: string) {
-    const profile = await ProfileModel.create({
+  async createProfile(
+    userId: string,
+    firstName: string,
+    lastName: string,
+    imgUrl?: string
+  ) {
+    const profileBody: any = {
       firstName,
       lastName,
       userId,
       id: uuidV4(),
-    });
+    };
+
+    if (imgUrl !== undefined) {
+      profileBody.imgUrl = imgUrl;
+    }
+
+    const profile = await ProfileModel.create(profileBody);
 
     return profile;
   }
