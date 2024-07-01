@@ -84,9 +84,21 @@ class AuthService {
     return result;
   }
 
-  async createProfile(userId: string, firstName: string, lastName: string) {}
+  async createProfile(userId: string, firstName: string, lastName: string) {
+    const profile = await ProfileModel.create({
+      firstName,
+      lastName,
+      userId,
+      id: uuidV4(),
+    });
 
-  async getUserProfile(userId: string) {}
+    return profile;
+  }
+
+  async getUserProfile(userId: string) {
+    const profile = await ProfileModel.findOne({ where: { userId } });
+    return profile;
+  }
 }
 
 export default new AuthService();
