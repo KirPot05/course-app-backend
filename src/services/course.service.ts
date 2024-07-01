@@ -163,7 +163,11 @@ class CourseService {
 
     if (enrolled) return null;
 
-    return await StudentCourseModel.create({ studentId, courseId });
+    return await StudentCourseModel.create({
+      id: uuidV4(),
+      studentId,
+      courseId,
+    });
   }
 }
 
