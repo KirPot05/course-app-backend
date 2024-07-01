@@ -52,6 +52,7 @@ export async function createUser(req: Request, res: Response) {
     let response;
     if (result.success === false) {
       response = failed_response(result.msg);
+      return res.status(400).json(response);
     } else {
       response = success_response(result.msg, {
         token: result.token,
