@@ -9,6 +9,9 @@ class MessageService {
     this.accoundSid = sid;
     this.authToken = accessToken;
 
+    console.log("SID: ", this.accoundSid);
+    console.log("Auth Token: ", this.authToken);
+
     this.messageClient = twilio(this.accoundSid, this.authToken);
   }
 

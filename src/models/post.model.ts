@@ -51,14 +51,23 @@ Post.init(
   },
   {
     sequelize,
-    modelName: "Post",
+    tableName: "posts",
+    timestamps: true,
   }
 );
 
-Post.belongsTo(User, { foreignKey: "userId" });
-User.hasMany(Post, { foreignKey: "userId" });
+Post.belongsTo(User, { foreignKey: "userId", as: "user", constraints: true });
+User.hasMany(Post, { foreignKey: "userId", as: "posts", constraints: true });
 
-Post.belongsTo(Thread, { foreignKey: "threadId" });
-Thread.hasMany(Post, { foreignKey: "threadId" });
+// Post.belongsTo(Thread, {
+//   foreignKey: "threadId",
+//   as: "thread",
+//   constraints: true,
+// });
+// Thread.hasMany(Post, {
+//   foreignKey: "threadId",
+//   as: "posts",
+//   constraints: true,
+// });
 
 export default Post;

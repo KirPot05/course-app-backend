@@ -54,7 +54,6 @@ class AuthService {
     result.success = true;
     result.msg = "User logged in successfully";
     result.token = authToken;
-
     return result;
   }
 
@@ -108,11 +107,11 @@ class AuthService {
     result.token = authToken;
     result.msg = "User registered successfully";
 
-    await notificationService.sendEmail(
-      "pratham.siddannavar28@gmail.com",
-      result.msg,
-      "Registration successful"
-    );
+    // await notificationService.sendEmail(
+    //   "pratham.siddannavar28@gmail.com",
+    //   result.msg,
+    //   "Registration successful"
+    // );
 
     await notificationService.sendMessage(result.msg, "+918073970294");
 
@@ -138,6 +137,10 @@ class AuthService {
 
     const profile = await ProfileModel.create(profileBody);
 
+    await notificationService.sendMessage(
+      `Hey ${firstName}! Your profile has been created successfully`,
+      "+918073970294"
+    );
     return profile;
   }
 

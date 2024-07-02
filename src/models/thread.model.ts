@@ -46,11 +46,16 @@ Thread.init(
   },
   {
     sequelize,
-    modelName: "Thread",
+    tableName: "threads",
+    timestamps: true,
   }
 );
 
-Thread.belongsTo(User, { foreignKey: "userId" });
-User.hasMany(Thread, { foreignKey: "userId" });
+Thread.belongsTo(User, { foreignKey: "userId", as: "user", constraints: true });
+User.hasMany(Thread, {
+  foreignKey: "userId",
+  as: "threads",
+  constraints: true,
+});
 
 export default Thread;
