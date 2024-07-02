@@ -27,3 +27,10 @@ export {
   default as StudentCourseModel,
   StudentCourseAttributes as StudentCourse,
 } from "./student_courses.model";
+
+export { default as PostModel, PostAttributes as Post } from "./post.model";
+
+export {
+  default as ThreadModel,
+  ThreadAttributes as Thread,
+} from "./thread.model";

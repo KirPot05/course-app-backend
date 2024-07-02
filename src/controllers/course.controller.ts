@@ -114,3 +114,30 @@ export async function enrollStudent(req: CustomRequest, res: Response) {
       .json({ message: "Error in fetching student courses" });
   }
 }
+
+export async function fetchInstructorCourses(
+  req: CustomRequest,
+  res: Response
+) {
+  try {
+    const instructorId = req.userId;
+
+    if (!instructorId) {
+      return res.status(400).json({ message: "User ID is required" });
+    }
+
+    const instructorCourses = await courseService.getInstructorCourses(
+      instructorId
+    );
+    if (instructorCourses.length === 0) {
+      return res.status(404).json({ message: "No courses found" });
+    }
+
+    return res.status(200).json(instructorCourses);
+  } catch (error) {
+    console.error(error);
+    return res
+      .status(500)
+      .json({ message: "Error in fetching student courses" });
+  }
+}

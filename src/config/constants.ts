@@ -17,3 +17,13 @@ export const DB_PASSWORD = process.env.DB_PASSWORD || "";
 export const DB_HOST = process.env.DB_HOST || "";
 
 export const DB_DIALECT = process.env.DB_DIALECT as Dialect;
+
+export const TWILIO_ACCOUNT_SID = process.env.TWILIO_ACCOUNT_SID || "";
+
+export const TWILIO_AUTH_TOKEN = process.env.TWILIO_AUTH_TOKEN || "";
+
+export const SENDGRID_API_KEY = process.env.SENDGRID_API_KEY || "";
+
+export const SENDGRID_EMAIL_ADDRESS = process.env.SENDGRID_EMAIL_ADDRESS || "";
+
+export const TWILIO_PHONE_NUMBER = process.env.TWILIO_PHONE_NUMBER || "";
