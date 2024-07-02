@@ -13,11 +13,19 @@ import { v4 as uuidV4 } from "uuid";
 import notificationService from "../lib/notification";
 
 class CourseService {
-  async createCourse(instructorId: string, course: Course, tags: string[]) {
-    const { id, ...remCourse } = course;
+  async createCourse(instructorId: string, course: any, tags: string[]) {
+    let courseBody = course;
+    if (typeof courseBody?.price === "number") {
+      courseBody.price = new Intl.NumberFormat("en-IN", {
+        style: "currency",
+        currency: "INR",
+      }).format(courseBody.price);
+    }
+    console.log(courseBody.price);
+
     const newCourse = await CourseModel.create({
       id: uuidV4(),
-      ...remCourse,
+      ...course,
       instructorId,
     });
     if (newCourse === null) throw new Error(`Course not created`);

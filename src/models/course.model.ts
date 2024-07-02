@@ -6,7 +6,7 @@ export interface CourseAttributes {
   title: string;
   description?: string;
   rating: number;
-  reviews: string;
+  reviews?: string;
   bestSeller: boolean;
   instructorId: string;
   price: string;
@@ -29,7 +29,7 @@ class Course
   public bestSeller!: boolean;
   public imgUrl!: string;
   public price!: string;
-  public reviews!: string;
+  public reviews?: string;
   public instructorId!: string;
 
   // timestamps!
@@ -78,7 +78,7 @@ Course.init(
 
     reviews: {
       type: DataTypes.STRING,
-      allowNull: false,
+      // allowNull: false,
     },
   },
   {
