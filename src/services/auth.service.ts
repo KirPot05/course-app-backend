@@ -1,6 +1,7 @@
 import { ProfileModel, User, UserModel } from "../models";
 import { getAuthToken, isCorrectPassword } from "../utils/password.util";
 import { v4 as uuidV4 } from "uuid";
+import notificationService from "../lib/notification";
 
 type AuthResponse = {
   success: boolean;
@@ -106,6 +107,14 @@ class AuthService {
     result.success = true;
     result.token = authToken;
     result.msg = "User registered successfully";
+
+    await notificationService.sendEmail(
+      "pratham.siddannavar28@gmail.com",
+      result.msg,
+      "Registration successful"
+    );
+
+    await notificationService.sendMessage(result.msg, "+918073970294");
 
     return result;
   }
