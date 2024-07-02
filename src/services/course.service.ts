@@ -10,6 +10,7 @@ import {
   UserModel,
 } from "../models";
 import { v4 as uuidV4 } from "uuid";
+import notificationService from "../lib/notification";
 
 class CourseService {
   async createCourse(instructorId: string, course: Course, tags: string[]) {
@@ -27,6 +28,11 @@ class CourseService {
       id: uuidV4(),
     });
     // Add logic to handle tags if required
+
+    await notificationService.sendMessage(
+      `Hey users, a new course ${newCourse.title} has been added! Do check it out`,
+      "+918073970294"
+    );
     return newCourse;
   }
   async getAllCourses() {
@@ -192,6 +198,17 @@ class CourseService {
     });
 
     if (enrolled) return null;
+
+    const profile = await ProfileModel.findOne({
+      where: { userId: studentId },
+    });
+
+    if (profile !== null) {
+      await notificationService.sendMessage(
+        `Congratulations ${profile.firstName}! You have been registered to the course successfully`,
+        "+918073970294"
+      );
+    }
 
     return await StudentCourseModel.create({
       id: uuidV4(),
