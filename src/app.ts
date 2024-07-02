@@ -3,7 +3,7 @@ import cors from "cors";
 import { Request, Response, NextFunction } from "express";
 import morgan from "morgan";
 import { NODE_ENV, PORT } from "./config/constants";
-import { authRoutes, courseRoutes, profileRoutes } from "./routes";
+import { authRoutes, courseRoutes, profileRoutes, forumRoutes } from "./routes";
 import { connectDB, sequelize } from "./utils/db";
 
 const app = express();
@@ -26,6 +26,7 @@ if (NODE_ENV === "development") {
 app.use("/api/auth", authRoutes);
 app.use("/api/courses", courseRoutes);
 app.use("/api/profile", profileRoutes);
+app.use("/api/forum", forumRoutes);
 
 app.get("/", (req, res) => {
   res.json({ message: "Server working!" });
